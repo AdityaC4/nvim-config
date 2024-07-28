@@ -17,10 +17,10 @@ return {
 				ls.expand()
 			end, { silent = true })
 
-			vim.keymap.set({ "i", "s" }, "<C-s>;", function()
+			vim.keymap.set({ "i", "s" }, "<C-l>", function()
 				ls.jump(1)
 			end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<C-s>,", function()
+			vim.keymap.set({ "i", "s" }, "<C-h>", function()
 				ls.jump(-1)
 			end, { silent = true })
 

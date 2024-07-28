@@ -12,3 +12,11 @@ vim.keymap.set("n", "<c-j>", "<c-w><c-j>")
 vim.keymap.set("n", "<c-k>", "<c-w><c-k>")
 vim.keymap.set("n", "<c-l>", "<c-w><c-l>")
 vim.keymap.set("n", "<c-h>", "<c-w><c-h>")
+
+-- yank to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y"]])
+vim.keymap.set("n", "<leader>Y", [["+Y"]])
+
+-- move text in visual mode
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
