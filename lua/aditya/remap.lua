@@ -20,3 +20,15 @@ vim.keymap.set("n", "<leader>Y", [["+Y"]])
 -- move text in visual mode
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+
+-- vertical movement
+vim.keymap.set("n", "<c-d>", "<c-d>zz")
+vim.keymap.set("n", "<c-u>", "<c-u>zz")
+
+-- stupid semicolon hack
+vim.keymap.set("n", "<leader>;", function()
+	local line = vim.api.nvim_get_current_line()
+	if not line:match(";$") then
+		vim.api.nvim_set_current_line(line .. ";")
+	end
+end, { desc = "Append `;` at the end of the line if missing", silent = true })
