@@ -2,10 +2,25 @@ vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 -- diagnostic keymaps
+local diagnostic_enabled = true
+
+function ToggleInlineDiagnostics()
+	diagnostic_enabled = not diagnostic_enabled
+	vim.diagnostic.config({
+		virtual_text = diagnostic_enabled,
+	})
+	if diagnostic_enabled then
+		print("Inline diagnostics enabled")
+	else
+		print("Inline diagnostics disabled")
+	end
+end
+
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>E", ToggleInlineDiagnostics, { desc = "Toggle inline diagnostics" })
 
 -- basic movement keys for splits
 vim.keymap.set("n", "<c-j>", "<c-w><c-j>")
