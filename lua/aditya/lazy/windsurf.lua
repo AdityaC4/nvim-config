@@ -19,6 +19,15 @@ return {
 			vim.keymap.set("i", "<C-x>", function()
 				return vim.fn["codeium#Clear"]()
 			end, { expr = true, silent = true })
+			-- Accept next word from suggestion
+			vim.keymap.set("i", "<C-k>", function()
+				return vim.fn["codeium#AcceptNextWord"]()
+			end, { expr = true, silent = true })
+
+			-- Accept next line from suggestion
+			vim.keymap.set("i", "<C-l>", function()
+				return vim.fn["codeium#AcceptNextLine"]()
+			end, { expr = true, silent = true })
 		end,
 	},
 }
