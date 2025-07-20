@@ -1,12 +1,23 @@
-function ColorMyPencils(color)
+-- colors.lua
+
+-- Cycle-friendly colorscheme switcher
+local function ColorMyPencils(color)
 	color = color or "gruvbox"
 	vim.cmd.colorscheme(color)
 
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+	if color == "tokyonight" then
+		-- transparent for Float & Normal
+		vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+	elseif color == "rose-pine" then
+		-- force pure black
+		vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+		vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000" })
+	end
 end
 
-local colorschemes = { "rose-pine", "gruvbox", "tokyonight" }
+-- order matters: 1=gruvbox, 2=rose-pine, 3=tokyonight
+local colorschemes = { "gruvbox", "rose-pine", "tokyonight" }
 local index = 1
 
 vim.keymap.set("n", "<leader>cc", function()
@@ -17,38 +28,39 @@ vim.keymap.set("n", "<leader>cc", function()
 end, { desc = "Cycle Colorschemes" })
 
 return {
-	-- Rose Pine
+	-- 1) Gruvbox as the startup default
+	{
+		"ellisonleao/gruvbox.nvim",
+		name = "gruvbox",
+		priority = 1000, -- load first
+		config = function()
+			require("gruvbox").setup({
+				contrast = "hard",
+				transparent_mode = false, -- opaque background
+			})
+			ColorMyPencils("gruvbox")
+		end,
+	},
+
+	-- 2) Rose‑Pine (we’ll override bg to pure black in the switcher)
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
 		config = function()
 			require("rose-pine").setup({
-				disable_background = true,
-				styles = {
-					italic = false,
-				},
-			})
-			ColorMyPencils("rose-pine")
-		end,
-	},
-	-- Gruvbox colorscheme
-	{
-		"ellisonleao/gruvbox.nvim",
-		name = "gruvbox",
-		config = function()
-			require("gruvbox").setup({
-				contrast = "hard", -- Options: 'hard', 'soft', 'medium'
-				transparent_mode = true,
+				disable_background = false, -- keep its own bg (we’ll tweak it)
+				styles = { italic = false },
 			})
 		end,
 	},
-	-- Tokyo Night colorscheme
+
+	-- 3) Tokyo Night, transparent by default
 	{
 		"folke/tokyonight.nvim",
 		name = "tokyonight",
 		config = function()
 			require("tokyonight").setup({
-				style = "moon", -- Options: 'storm', 'night', 'day', 'moon'
+				style = "moon",
 				transparent = true,
 			})
 		end,
