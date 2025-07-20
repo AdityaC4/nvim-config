@@ -1,7 +1,8 @@
 return {
 	{
 		"Exafunction/windsurf.vim",
-		event = "InsertEnter",
+		lazy = true,
+		cmd = { "CodeiumEnable", "CodeiumToggle" },
 		config = function()
 			-- Optional: Disable default keybindings
 			vim.g.codeium_disable_bindings = 1
