@@ -5,15 +5,15 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 local diagnostic_enabled = true
 
 function ToggleInlineDiagnostics()
-	diagnostic_enabled = not diagnostic_enabled
-	vim.diagnostic.config({
-		virtual_text = diagnostic_enabled,
-	})
-	if diagnostic_enabled then
-		print("Inline diagnostics enabled")
-	else
-		print("Inline diagnostics disabled")
-	end
+  diagnostic_enabled = not diagnostic_enabled
+  vim.diagnostic.config({
+    virtual_text = diagnostic_enabled,
+  })
+  if diagnostic_enabled then
+    print("Inline diagnostics enabled")
+  else
+    print("Inline diagnostics disabled")
+  end
 end
 
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
@@ -42,8 +42,8 @@ vim.keymap.set("n", "<c-u>", "<c-u>zz")
 
 -- stupid semicolon hack
 vim.keymap.set("n", "<leader>;", function()
-	local line = vim.api.nvim_get_current_line()
-	if not line:match(";$") then
-		vim.api.nvim_set_current_line(line .. ";")
-	end
+  local line = vim.api.nvim_get_current_line()
+  if not line:match(";$") then
+    vim.api.nvim_set_current_line(line .. ";")
+  end
 end, { desc = "Append `;` at the end of the line if missing", silent = true })
