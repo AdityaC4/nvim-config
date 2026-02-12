@@ -9,7 +9,7 @@ local function format_with_prompt()
   end
 
   local choice =
-    vim.fn.confirm("No formatters available. Use LSP formatting?", "&Yes\n&No", 2)
+      vim.fn.confirm("No formatters available. Use LSP formatting?", "&Yes\n&No", 2)
   if choice == 1 then
     vim.lsp.buf.format({ async = true })
   end
@@ -56,6 +56,8 @@ return { -- Autoformat
       c = { "clang_format" },
       cpp = { "clang_format" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
+      -- json = { "jq" },
+      -- jsonc = { "jq" },
     },
     formatters = {
       zig_fmt = {
