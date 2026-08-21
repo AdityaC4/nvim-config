@@ -3,7 +3,16 @@
 -- Cycle-friendly colorscheme switcher
 local function ColorMyPencils(color)
   color = color or "gruvbox"
-  vim.cmd.colorscheme(color)
+
+  if color == "rose-pine-light" then
+    require("rose-pine").setup({
+      variant = "dawn",
+      styles = { italic = false },
+    })
+    vim.cmd.colorscheme("rose-pine")
+  else
+    vim.cmd.colorscheme(color)
+  end
 
   if color == "tokyonight" then
     -- transparent for Float & Normal
@@ -17,7 +26,13 @@ local function ColorMyPencils(color)
 end
 
 -- order matters: 1=gruvbox, 2=rose-pine, 3=tokyonight
-local colorschemes = { "gruvbox", "rose-pine", "tokyonight" }
+local colorschemes = {
+  "gruvbox",
+  "rose-pine",
+  "tokyonight",
+  "rose-pine-light",
+}
+
 local index = 1
 
 vim.keymap.set("n", "<leader>cc", function()
