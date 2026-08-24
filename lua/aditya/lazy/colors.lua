@@ -2,8 +2,8 @@
 -- Cycle-friendly colorscheme switcher
 
 local function apply_semantic_overrides()
-  vim.api.nvim_set_hl(0, "@lsp.type.namespace", { link = "GruvboxOrange" })
-  vim.api.nvim_set_hl(0, "@lsp.type.namespace.python", { link = "GruvboxOrange" })
+  vim.api.nvim_set_hl(0, "@lsp.type.namespace", { link = "GruvboxYellow" })
+  vim.api.nvim_set_hl(0, "@lsp.type.namespace.python", { link = "GruvboxYellow" })
 end
 
 local function ColorMyPencils(color)
