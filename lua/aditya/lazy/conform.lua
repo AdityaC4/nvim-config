@@ -51,7 +51,7 @@ return { -- Autoformat
     end,
     formatters_by_ft = {
       lua = { "stylua" },
-      python = { "isort", "black" },
+      python = { "ruff_format" },
       zig = { "zig_fmt" },
       c = { "clang_format" },
       cpp = { "clang_format" },
