@@ -41,6 +41,26 @@ return {
       capabilities = capabilities,
     })
 
+    vim.lsp.config("basedpyright", {
+      settings = {
+        basedpyright = {
+          -- "recommended" is basedpyright's default and is very loud.
+          -- "standard" ~= old pyright behaviour. Use "basic" if still noisy.
+          analysis = {
+            typeCheckingMode = "standard",
+            diagnosticMode = "openFilesOnly",
+            autoImportCompletions = true,
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+              functionReturnTypes = true,
+              genericTypes = false,
+            },
+          },
+        },
+      },
+    })
+
     vim.lsp.config("zls", {
       root_dir = require("lspconfig.util").root_pattern(".git", "build.zig", "zls.json"),
       settings = {
@@ -69,7 +89,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "rust_analyzer",
-        "pyright",
+        "basedpyright",
         "zls",
         "clangd",
       },
