@@ -55,6 +55,7 @@ return { -- Autoformat
       zig = { "zig_fmt" },
       c = { "clang_format" },
       cpp = { "clang_format" },
+      rust = { "rustfmt" },
       javascript = { "prettierd", "prettier", stop_after_first = true },
       html = { "prettierd", "prettier", stop_after_first = true },
       css = { "prettierd", "prettier", stop_after_first = true },

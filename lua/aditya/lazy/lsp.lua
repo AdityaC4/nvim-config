@@ -17,6 +17,7 @@ return {
     local cmp = require("cmp")
     local luasnip = require("luasnip")
     local cmp_lsp = require("cmp_nvim_lsp")
+    local state = require("aditya.state")
 
     -- helper: are there non-space chars before cursor?
     local has_words_before = function()
@@ -59,6 +60,24 @@ return {
           },
         },
       },
+    })
+
+    vim.lsp.config("rust_analyzer", {
+      settings = {
+        ["rust-analyzer"] = {
+          check = { command = "clippy" },
+          inlayHints = {
+            bindingModeHints = { enable = true },
+            closureReturnTypeHints = { enable = "always" },
+            lifetimeElisionHints = { enable = "skip_trivial" },
+            typeHints = { enable = true },
+          },
+        },
+      },
+    })
+
+    vim.lsp.config("clangd", {
+      cmd = { "clangd", "--header-insertion=never" },
     })
 
     vim.lsp.config("zls", {
@@ -154,8 +173,10 @@ return {
     })
 
     vim.api.nvim_create_autocmd("LspAttach", {
-      callback = function()
+      callback = function(args)
         local builtin = require("telescope.builtin")
+        local bufnr = args.buf
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
 
         vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0 })
@@ -169,6 +190,15 @@ return {
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = 0 })
 
         vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, { buffer = 0 })
+
+        if client and client:supports_method("textDocument/inlayHint") then
+          vim.lsp.inlay_hint.enable(state.get("inlay_hints", true), { bufnr = bufnr })
+          vim.keymap.set("n", "<leader>th", function()
+            local enabled = not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+            vim.lsp.inlay_hint.enable(enabled, { bufnr = bufnr })
+            state.set("inlay_hints", enabled)
+          end, { buffer = bufnr, desc = "[T]oggle Inlay [H]ints" })
+        end
       end,
     })
   end,
