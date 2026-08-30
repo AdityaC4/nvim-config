@@ -16,6 +16,12 @@ end
 
 local function ColorMyPencils(color)
   color = color or "gruvbox"
+  -- On the very first apply, vim.g.colors_name is still nil, so :colorscheme
+  -- skips its own implicit `hi clear` -- plugins that bake a highlight once
+  -- and only recompute it on a real clear (e.g. ibl's IblScope, sourced from
+  -- LineNr) get stuck on nvim's plain default color instead of the theme's.
+  -- Clearing explicitly here makes first-launch behave like any later switch.
+  vim.cmd("highlight clear")
   if color == "rose-pine-light" then
     require("rose-pine").setup({
       variant = "dawn",
@@ -73,6 +79,9 @@ end, { desc = "Pick Colorscheme" })
 vim.api.nvim_create_autocmd("User", {
   pattern = "VeryLazy",
   once = true,
+  nested = true, -- let this autocmd trigger further autocmds (e.g. other
+  -- plugins' own ColorScheme handlers) synchronously, instead of nvim
+  -- silently swallowing them since we're already inside an autocmd callback
   callback = function()
     ColorMyPencils(state.get("colorscheme", "gruvbox"))
   end,

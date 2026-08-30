@@ -13,7 +13,7 @@ return {
     require("nvim-treesitter").install({
       "vimdoc", "javascript", "typescript", "c", "cpp", "lua", "rust",
       "python", "jsdoc", "bash", "vim", "query", "markdown",
-      "markdown_inline", "json", "yaml", "toml", "html", "css", "zig",
+      "markdown_inline", "json", "yaml", "toml", "html", "css", "zig", "llvm",
     })
 
     -- Highlighting is NOT automatic on main. You turn it on yourself.
