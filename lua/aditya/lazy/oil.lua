@@ -19,14 +19,26 @@ return {
         -- Floating window appearance
         float = {
           padding = 2,
-          max_width = 0.8,
-          max_height = 0.8,
+          max_width = 0.9,
+          max_height = 0.9,
           border = "rounded",
           win_options = {
             winblend = 0,
           },
           preview_split = "right",
         },
+      })
+
+      -- auto-open preview when oil float opens
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "OilEnter",
+        callback = function()
+          local oil = require("oil")
+          if vim.api.nvim_win_get_config(0).relative == "" then return end
+          if oil.get_cursor_entry() then
+            oil.open_preview()
+          end
+        end,
       })
 
       -- -- Open parent directory in current window
